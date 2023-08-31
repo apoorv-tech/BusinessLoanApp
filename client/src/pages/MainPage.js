@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { useParams,useNavigate } from "react-router-dom";
+import style from "./MainPage.module.css"
 
 const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -25,7 +26,7 @@ const Details = ({uid,setUID,base_url,setBalanceSheet,setBusinessName,setBusines
             console.log(`Loan Amount: ${loanAmount}`)
             console.log(`monthly statement: `);
             console.log(monthlyInfos);
-            if(selectedMonth===""||profitOrLoss===""||assets===""||year==="")console.log("Please Fill All Details!!");
+            if(selectedMonth===""||profitOrLoss===""||assets===""||year==="")alert("Please Fill All Details!!");
             else{
                 // Check if the selected month already exists in monthlyInfos
                 const monthExists = monthlyInfos.some(item => item.month === selectedMonth);
@@ -40,9 +41,9 @@ const Details = ({uid,setUID,base_url,setBalanceSheet,setBusinessName,setBusines
         }
         if(!openPopup)return null
         return (
-            <div>
+            <div className={style.popup}>
                  <div>
-                     <label htmlFor="monthSelect">Select a Month:</label>
+                     <label htmlFor="monthSelect">Select a Month: </label>
                      <select id="monthSelect" value={selectedMonth} onChange={(e)=>setSelectedMonth(e.target.value)}>
                         <option value="">Please Select a month</option>
                          {months.map((month, index) => (
@@ -53,14 +54,14 @@ const Details = ({uid,setUID,base_url,setBalanceSheet,setBusinessName,setBusines
                      </select>
                  </div>
                  <div>
-                     <label>Profit or Loss</label>
+                     <label>Profit or Loss: </label>
                      <input type="number" value={profitOrLoss} onChange={(e)=>setProfitOrLoss(e.target.value)}/>
                  </div>
                  <div>
-                     <label>Assets Value</label>
+                     <label>Assets Value: </label>
                      <input type="number" value={assets} onChange={(e)=>setAssets(e.target.value)}/>
                  </div>
-                 <button onClick={()=>handleAdd()}>Add</button>
+                 <button className={style.addButton} onClick={()=>handleAdd()}>Add</button>
             </div>
         )
     }
@@ -113,22 +114,22 @@ const Details = ({uid,setUID,base_url,setBalanceSheet,setBusinessName,setBusines
         }
     }
     return (
-     <div>
-        <div>Please Fill the require details!!</div>
+     <div className={style.mainBody}>
+        <h1>Please Fill the require details!!</h1>
          <div>
-             <label htmlFor="name">Name</label>
-             <input id="name" value={name} type="text" onChange={(e)=>setName(e.target.value)}/>
+             <label htmlFor="name">Name: </label>
+             <input className={style.normalInput} id="name" value={name} type="text" onChange={(e)=>setName(e.target.value)}/>
          </div>
          <div>
-             <label htmlFor="year">Year</label>
-             <input id="year" value={year} type="number" onChange={(e)=>setYear(e.target.value)}/>
+             <label htmlFor="year">Year: </label>
+             <input className={style.normalInput} id="year" value={year} type="number" onChange={(e)=>setYear(e.target.value)}/>
          </div>
          <div>
-             <label htmlFor="year">Loan Amount</label>
-             <input id="year" value={loanAmount} type="number" onChange={(e)=>setLoanAmount(e.target.value)}/>
+             <label htmlFor="year">Loan Amount: </label>
+             <input className={style.normalInput} id="year" value={loanAmount} type="number" onChange={(e)=>setLoanAmount(e.target.value)}/>
          </div>
          <div>
-                     <label htmlFor="providerSelect">Select a Accounting Provider</label>
+                     <label htmlFor="providerSelect">Select a Accounting Provider: </label>
                      <select id="providerSelect" value={provider} onChange={(e)=>setProvider(e.target.value)}>
                         <option value=""></option>
                          {providers.map((provider, index) => (
@@ -139,19 +140,35 @@ const Details = ({uid,setUID,base_url,setBalanceSheet,setBusinessName,setBusines
                      </select>
          </div>
          <div>
-             <div>Click to add Financial Statement of a month of the provided year</div>
-             <button onClick={()=>setOpenPopup((prevValue)=>!prevValue)}>+</button>
+             <div className={style.financeDetails}>
+                <div>Add Monthly Financial Details</div>
+                <button className={style.openbutton} onClick={()=>setOpenPopup((prevValue)=>!prevValue)}>+</button>
+             </div>
              <Popup/>
          </div>
-             {monthlyInfos.map((info,index)=>{
-                 return (
-                     <div key={index}>
-                        <div>{info.year},{months[info.month]},{info.profitOrLoss},{info.assets}</div>
-                        <button onClick={()=>removeInfo(index)}>Delete</button>
-                     </div>
-                 )
-             })}
-         <div>
+         <div className={style.tableContainer}>
+            <div className={`${style.tableRow} ${style.header}`}>
+                <div className={style.tableCell}>Year</div>
+                <div className={style.tableCell}>Month</div>
+                <div className={style.tableCell}>Profit/Loss</div>
+                <div className={style.tableCell}>Assets</div>
+                <div className={style.tableCell}></div> {/* Empty cell for delete buttons */}
+            </div>
+            {monthlyInfos.map((info, index) => {
+                return (
+                <div className={style.tableRow} key={index}>
+                    <div className={style.tableCell}>{info.year}</div>
+                    <div className={style.tableCell}>{months[info.month]}</div>
+                    <div className={style.tableCell}>{info.profitOrLoss}</div>
+                    <div className={style.tableCell}>{info.assets}</div>
+                    <div className={style.tableCell}>
+                    <button onClick={() => removeInfo(index)}>Delete</button>
+                    </div>
+                </div>
+                );
+            })}
+         </div>
+         <div className={style.navigation}>
             <button onClick={()=>handleSubmit()}>Submit</button>
             <button onClick={()=>handleCancel()}>Cancel</button>
          </div>
@@ -179,24 +196,35 @@ const BalanceSheet = ({base_url,balanceSheet,setBalanceSheet,businessName,busine
         }
     }
     return (
-        <div>
-            Please Review the BalanceSheet
+        <div className={style.mainBody}>
+            <h1>
+                Please Review the Generated Balance Sheet
+            </h1>
             <div>
                 Business Name: {businessName}
             </div>
             <div>
                 Loan Amount: {businessLoanAmount}
             </div>
-            <div>
-                {balanceSheet.map((info,index)=>{
+            <div className={style.tableContainer}>
+            <div className={`${style.tableRow} ${style.header}`}>
+                <div className={style.tableCell}>Year</div>
+                <div className={style.tableCell}>Month</div>
+                <div className={style.tableCell}>Profit/Loss</div>
+                <div className={style.tableCell}>Assets</div>
+            </div>
+                {balanceSheet.map((info, index) => {
                     return (
-                        <div key={index}>
-                            {info.year},{months[info.month]},{info.profitOrLoss},{info.assets}
-                        </div>
-                    )
+                    <div className={style.tableRow} key={index}>
+                        <div className={style.tableCell}>{info.year}</div>
+                        <div className={style.tableCell}>{months[info.month]}</div>
+                        <div className={style.tableCell}>{info.profitOrLoss}</div>
+                        <div className={style.tableCell}>{info.assets}</div>
+                    </div>
+                    );
                 })}
             </div>
-            <div>
+            <div className={style.navigation}>
                 <button onClick={()=>submitApplication()}>Submit Application</button>
                 <button onClick={()=>setBalanceSheet("")}>Cancel</button>
             </div>

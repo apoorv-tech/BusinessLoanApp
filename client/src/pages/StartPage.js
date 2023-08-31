@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
+import style from './StartPage.module.css'
 const StartPage = ()=>{
     const base_url =  process.env.REACT_APP_BASE_URL
     const navigate = useNavigate()
@@ -19,9 +20,9 @@ const StartPage = ()=>{
         }
     }
     return (
-        <div>
-            <h1>Welcome to Business Loan App!! Click on Start to start your loan application</h1>
-            <button onClick={()=>handleStart()}>Start</button>
+        <div className={style.mainBody}>
+            <h1>Welcome to Business Loan App!! Click button &darr; below to start your loan application</h1>
+            <button className={style.startButton} onClick={()=>handleStart()}>Start</button>
         </div>
     )
 }
