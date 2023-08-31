@@ -73,7 +73,7 @@ app.post('/api/fetch_balance_sheet',async(req,res)=>{
         const monthlyInfos = req.body.monthlyInfos
         const provider = req.body.provider
         if(name===undefined||name===""||name===null)return res.status(400).send("Please Send a valid name")
-        if(monthlyInfos===undefined||monthlyInfos===""||monthlyInfos===null)return res.status(400).send("Please Send a valid monthlyInfo")
+        if(monthlyInfos===undefined||monthlyInfos===""||monthlyInfos===null||monthlyInfos.length==0)return res.status(400).send("Please Send a valid monthlyInfo")
         if(provider===undefined||provider===""||provider===null)return res.status(400).send("Please Send a valid accounting provider")
 
         //now generate the balance sheet from the accounting software

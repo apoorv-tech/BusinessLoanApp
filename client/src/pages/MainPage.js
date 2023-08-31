@@ -75,7 +75,7 @@ const Details = ({uid,setUID,base_url,setBalanceSheet,setBusinessName,setBusines
     }
     const handleSubmit = async()=>{
         try {
-            if(name===""||loanAmount===""||provider===""){
+            if(name===""||loanAmount===""||provider===""||monthlyInfos.length===0){
                 alert('Please Fill all the details!!')
             }else{
                 const response = await axios.post(`${base_url}/fetch_balance_sheet`,{
@@ -93,7 +93,9 @@ const Details = ({uid,setUID,base_url,setBalanceSheet,setBusinessName,setBusines
                 setBalanceSheet(data.balanceSheet)
             }
         } catch (error) {
-            console.log(`error occurred while submitting details`,error);
+            //console.log(`error occurred while submitting details`,error);
+            if(error.response)alert(`${error.response.data}, Please Try Again!!`)
+            else alert(`${error.message}, Please Try Again!!`)
         }
     }
     const handleCancel = async()=>{
@@ -106,6 +108,8 @@ const Details = ({uid,setUID,base_url,setBalanceSheet,setBusinessName,setBusines
             setUID("")
         } catch (error) {
             console.log('error occurred while cancelling the loan application',error);
+            if(error.response)alert(`${error.response.data}, Please Try Again!!`)
+            else alert(`${error.message}, Please Try Again!!`)
         }
     }
     return (
@@ -169,7 +173,9 @@ const BalanceSheet = ({base_url,balanceSheet,setBalanceSheet,businessName,busine
             })
             alert(response.data)
         } catch (error) {
-            console.log(`error occurred while submitting the application`,error);
+            //console.log(`error occurred while submitting the application`,error);
+            if(error.response)alert(`${error.response.data}, Please Try Again!!`)
+            else alert(`${error.message}, Please Try Again!!`)
         }
     }
     return (
@@ -218,11 +224,10 @@ const MainPage = ()=>{
             })
             console.log(response.data);
         } catch (error) {
-            console.log('error occurred while checking validity of uid',error);
+            //console.log('error occurred while checking validity of uid',error);
             navigate(`/`)
         }
     }   
-    console.log('component re rendering');
     return (
         <div>
             {balanceSheet===""?
