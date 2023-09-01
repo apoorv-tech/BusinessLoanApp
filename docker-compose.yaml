@@ -11,8 +11,6 @@ services:
     container_name: client-docker-container
     networks:
       - loan-app-network
-    volumes:
-      - ./client:/app
     depends_on:
       - backend
 
@@ -25,8 +23,6 @@ services:
     container_name: backend-docker-container
     networks:
       - loan-app-network
-    volumes:
-      - ./backend:/app
 
 networks:
   loan-app-network:
