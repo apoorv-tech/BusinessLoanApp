@@ -15,6 +15,7 @@ To run this project you need to install docker in your system:
 After installing docker you need to run this commands to run project on your system:
 
 ```sh
+cd BusinessLoanApp
 docker-compose up -d
 ```
 You can view whether docker container are running by:
