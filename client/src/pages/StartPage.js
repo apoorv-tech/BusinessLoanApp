@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import style from './StartPage.module.css'
 const StartPage = ()=>{
-    const base_url =  process.env.REACT_APP_BASE_URL
+    const base_url =  'http://localhost:4000/api'
     const navigate = useNavigate()
     const handleStart = async()=>{
         try {

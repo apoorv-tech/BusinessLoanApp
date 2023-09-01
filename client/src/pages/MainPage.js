@@ -234,7 +234,7 @@ const BalanceSheet = ({base_url,balanceSheet,setBalanceSheet,businessName,busine
 
 const MainPage = ()=>{
     const {id} = useParams()
-    const base_url =  process.env.REACT_APP_BASE_URL
+    const base_url =  'http://localhost:4000/api'
     const [balanceSheet,setBalanceSheet] = useState("")
     const [businessName,setBusinessName] = useState("")
     const [businessLoanAmount,setBusinessLoanAmount] = useState("")
