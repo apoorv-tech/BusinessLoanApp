@@ -28,6 +28,9 @@ To stop the project you can run these commands:
 ```sh
 docker-compose down
 ```
+
+Make sure that docker engine is running while running these commands
+
 - You can see the frontend on: localhost:3000
 - You can see the backend on: localhost:4000
 
